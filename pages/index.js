@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import simpleContractABI from "./artifacts/contracts/SimpleContract.sol/SimpleContract.json";
 
-const contractAddress = "YOUR_CONTRACT_ADDRESS_HERE";
+const contractAddress = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
 const simpleContractABI = simpleContractABI.abi;
 
 function App() {
