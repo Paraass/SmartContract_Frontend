@@ -1,25 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-contract SimpleContract {
+contract Function_Frontend {
     string private message;
     uint256 private counter;
+    address private owner;
 
     event MessageSet(string message);
     event CounterIncremented(uint256 counter);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     constructor(string memory initialMessage) {
         message = initialMessage;
         counter = 0;
+        owner = msg.sender;
     }
 
-    function setMessage(string memory newMessage) public {
-        message = newMessage;
-        emit MessageSet(newMessage);
-    }
-
-    function getMessage() public view returns (string memory) {
-        return message;
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can perform this action");
+        _;
     }
 
     function incrementCounter() public {
@@ -27,7 +26,15 @@ contract SimpleContract {
         emit CounterIncremented(counter);
     }
 
-    function getCounter() public view returns (uint256) {
-        return counter;
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "New owner cannot be the zero address");
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
+
+    function appendToMessage(string memory additionalMessage) public {
+        message = string(abi.encodePacked(message, additionalMessage));
+        emit MessageSet(message);
     }
 }
+
